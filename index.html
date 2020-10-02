@@ -1,14 +1,212 @@
-<!DOCTYPE heml>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Hello!</title>
-        <style>
-            h1 {
-                color: blue;
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jingle Bells Reversed Delightfully</title>
+    <style>
+        body {
+            background-color: black;
+        }
+        .container {
+            text-align: center;
+            margin: 70px auto 0;
+        }
+        h2 {
+            color: white;
+        }
+
+        button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: lightgreen;
+            transition: all 400ms 0s ease;
+            font-size: 20px;
+        }
+        .hide {
+            opacity: 0;
+        }
+
+        #waveWrapper {
+            margin: 30px auto;
+            max-width: 587px;
+            max-height: 56px;
+            position: relative;
+            border: 1px solid #5495ff;
+            box-shadow: 0 0 70px rgb(200,200,200);
+            transition: box-shadow 700ms 500ms ease;
+        }
+        .wave {
+            width: 100%;
+            height: 56px;
+        }
+
+        #bar {
+            border: 1px solid white;
+            height: 100%;
+            position: absolute;
+            transition: all 7900ms 0s linear;
+            box-sizing: border-box;
+        }
+        .moveBar {
+            margin-left: 100%;
+        }
+
+        #nyan {
+            height: 100px;
+            position: absolute;
+            top: -100px;
+            right: 30px;
+            opacity: 0;
+            transition: all 300ms 4000ms ease;
+            z-index: 1;
+        }
+        #taiko {
+            height: 90px;
+            position: absolute;
+            top: -100px;
+            left: 40px;
+            opacity: 0;
+            transition: all 300ms 3000ms ease;
+        }
+        #nico {
+            height: 40px;
+            position: absolute;
+            top: -120px;
+            left: 150px;
+            opacity: 0;
+            transition: all 300ms 7000ms ease;
+        }
+
+        .field {
+            height: 50px;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            /* background-color: white; */
+        }
+        #dog {
+            position: absolute;
+            height: 20px;
+            top: -190px;
+            right: 190px;
+            opacity: 0;
+            transition: all 500ms 1500ms ease;
+        }
+        #slip {
+            position: absolute;
+            right: 10px;
+            opacity: 0;
+            transition: all 700ms 1500ms ease;
+        }
+        #tobe {
+            height: 120px;
+            position: absolute;
+            top: -55px;
+            right: 0;
+            opacity: 0;
+            transition: all 200ms 7000ms ease;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>An extract from "Jingle Bells" played normally...</h2>
+        <h2 id="second" class="hide">Listen very carefully to the lyrics...</h2>
+        <button id="go" onclick="play()">GO!</button>
+        <div id="waveWrapper">
+            <img id="nyan" src="img/nyan.gif" alt="">
+            <img id="taiko" src="img/taiko.gif" alt="">
+            <img id="nico" src="img/nico.gif" alt="">
+            <div id="bar"></div>
+            <img class="wave" src="img/wave_negate.png" alt="">
+        </div>
+        <div class="field">
+            <img id="dog" src="img/dog.gif" alt="">
+            <img id="slip" src="img/slip.gif" alt="">
+            <img id="tobe" src="img/tobe.png" alt="">
+        </div>
+    </div>
+
+    <script>
+        var audio = new Audio("src/tjingle.wav");
+        var audio2;
+        var source = "";
+        var bar = document.getElementById("bar");
+        var go = document.getElementById("go");
+        var statusDis;
+        var statusAble;
+
+        function play() {
+            if (bar.classList.contains('moveBar')) {
+                audio2.play();
+                document.getElementById("waveWrapper").style.boxShadow = "0 -1px 70px red";
+                switch (source) {
+                    case "src/adog.wav":
+                        document.getElementById('dog').style.opacity = "1";
+                        break;
+                    case "src/anyan.wav":
+                        document.getElementById('nyan').style.opacity = "1";
+                        break;
+                    case "src/ataiko.wav":
+                        document.getElementById('taiko').style.opacity = "1";
+                        break;
+                    case "src/astar.wav":
+                        document.getElementById('slip').style.opacity = "1";
+                        break;
+                    case "src/anico.wav":
+                        document.getElementById('nico').style.opacity = "1";
+                        break;
+                    case "src/atobe.wav":
+                        document.getElementById('tobe').style.opacity = "1";
+                        document.getElementById('tobe').style.right = "170px";
+                        break;
+                }
+            } else {
+                audio.play();
+                document.getElementById("waveWrapper").style.boxShadow = "0 -1px 70px rgb(200,200,200)";
+                var random = Math.round(Math.random()*5); // [0,5]
+                switch (random) {
+                    case 0:
+                        source = "src/adog.wav"
+                        break;
+                    case 1:
+                        source = "src/anyan.wav"
+                        break;
+                    case 2:
+                        source = "src/ataiko.wav"
+                        break;
+                    case 3:
+                        source = "src/astar.wav"
+                        break;
+                    case 4:
+                        source = "src/anico.wav"
+                        break;
+                    default:
+                        source = "src/atobe.wav"
+                }
+                audio2 = new Audio(source);
             }
-        </style>
-    </head>
-    <body>
-        <h1>This is my GitHub Pages website!</h1>
-    </body>
+            bar.classList.toggle('moveBar');
+            statusDis = setInterval(btnDisable, 0); 
+            statusAble = setInterval(btnAble, 7900); 
+        }
+        function btnDisable() {
+            go.disabled = true;
+            clearInterval(statusDis);
+            go.classList.add('hide');
+        }
+        function btnAble() {
+            go.disabled = false;
+            clearInterval(statusAble);
+            go.classList.remove('hide');
+            document.getElementById("second").classList.remove('hide');
+        }
+    </script>
+</body>
+
 </html>
