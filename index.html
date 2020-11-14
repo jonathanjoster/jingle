@@ -115,7 +115,7 @@
 
 <body>
     <div class="container">
-        <h2>An extract from "Jingle Bells" played normally...</h2>
+        <h2>An extract from "Jingle Bells" played normally... (mute)</h2>
         <h2 id="second" class="hide">Listen very carefully to the lyrics...</h2>
         <button id="go" onclick="play()">GO!</button>
         <div id="waveWrapper">
@@ -143,7 +143,7 @@
 
         function play() {
             if (bar.classList.contains('moveBar')) {
-                audio2.play();
+//                audio2.play();
                 document.getElementById("waveWrapper").style.boxShadow = "0 -1px 70px red";
                 switch (source) {
                     case "src/adog.wav":
@@ -167,7 +167,7 @@
                         break;
                 }
             } else {
-                audio.play();
+//                audio.play();
                 document.getElementById("waveWrapper").style.boxShadow = "0 -1px 70px rgb(200,200,200)";
                 var random = Math.round(Math.random()*5); // [0,5]
                 switch (random) {
